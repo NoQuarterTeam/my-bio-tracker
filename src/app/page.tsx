@@ -1,10 +1,10 @@
-import type { Metadata } from "next"
 import { DashboardHeader } from "@/components/dashboard-header"
 import { DashboardShell } from "@/components/dashboard-shell"
-import { UploadPdfButton } from "@/components/upload-pdf-button"
-import { RecentUploads } from "@/components/recent-uploads"
 import { HealthMarkersOverview } from "@/components/health-markers-overview"
+import { RecentUploads } from "@/components/recent-uploads"
+import { UploadPdfButton } from "@/components/upload-pdf-button"
 import { getHealthMarkers } from "@/lib/data"
+import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Dashboard | Blood Work Health Tracker",
@@ -28,4 +28,3 @@ export default async function DashboardPage() {
     </DashboardShell>
   )
 }
-

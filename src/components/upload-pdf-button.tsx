@@ -2,12 +2,12 @@
 
 import type React from "react"
 
-import { useState } from "react"
-import { Upload } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { uploadPdf } from "@/lib/actions"
+import { Upload } from "lucide-react"
+import { useState } from "react"
 
 export function UploadPdfButton() {
   const [isUploading, setIsUploading] = useState(false)
@@ -60,14 +60,14 @@ export function UploadPdfButton() {
         <div className="flex flex-col items-center justify-center space-y-4">
           <div className="flex h-32 w-full items-center justify-center rounded-md border border-dashed">
             {isUploading ? (
-              <div className="flex flex-col items-center space-y-2 w-4/5">
+              <div className="flex w-4/5 flex-col items-center space-y-2">
                 <Progress value={uploadProgress} className="w-full" />
-                <span className="text-sm text-muted-foreground">Processing... {uploadProgress}%</span>
+                <span className="text-muted-foreground text-sm">Processing... {uploadProgress}%</span>
               </div>
             ) : (
               <div className="flex flex-col items-center">
                 <Upload className="h-10 w-10 text-muted-foreground" />
-                <p className="mt-2 text-sm text-muted-foreground">Drag and drop or click to upload</p>
+                <p className="mt-2 text-muted-foreground text-sm">Drag and drop or click to upload</p>
               </div>
             )}
           </div>
@@ -91,4 +91,3 @@ export function UploadPdfButton() {
     </Card>
   )
 }
-

@@ -1,22 +1,19 @@
 import type React from "react"
 import "@/globals.css"
+import { SiteFooter } from "@/components/site-footer"
+import { SiteHeader } from "@/components/site-header"
+import { TailwindIndicator } from "@/components/tailwind-indicator"
+import { ThemeProvider } from "@/components/theme-provider"
+import { cn } from "@/lib/utils"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
-import { cn } from "@/lib/utils"
-import { ThemeProvider } from "@/components/theme-provider"
-import { SiteHeader } from "@/components/site-header"
-import { SiteFooter } from "@/components/site-footer"
-import { TailwindIndicator } from "@/components/tailwind-indicator"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Blood Work Health Tracker",
   description: "Track and analyze your blood test results over time",
-  icons: {
-    icon: "/favicon.ico",
-  },
-    generator: 'v0.dev'
+  icons: { icon: "/favicon.ico" },
 }
 
 interface RootLayoutProps {
@@ -39,7 +36,3 @@ export default function RootLayout({ children }: RootLayoutProps) {
     </html>
   )
 }
-
-
-
-import './globals.css'
