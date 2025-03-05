@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @plugin 'tailwindcss-animate';
 
@@ -97,7 +97,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 196 100% 47%;
+    --primary: 50 100% 47%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
@@ -116,7 +116,7 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 196 100% 47%;
 
-    --radius: 0.5rem;
+    --radius: 0.3rem;
 
     --chart-1: 196 100% 47%;
     --chart-2: 168 75% 45%;
@@ -164,4 +164,3 @@
     @apply bg-background text-foreground;
   }
 }
-

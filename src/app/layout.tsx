@@ -1,7 +1,5 @@
 import type React from "react"
-import "@/globals.css"
-import { SiteFooter } from "@/components/site-footer"
-import { SiteHeader } from "@/components/site-header"
+import "./globals.css"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
@@ -26,9 +24,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body className={cn("min-h-screen bg-background font-sans antialiased", inter.className)}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <div className="relative flex min-h-screen flex-col">
-            <SiteHeader />
             <div className="flex-1">{children}</div>
-            <SiteFooter />
           </div>
           <TailwindIndicator />
         </ThemeProvider>
