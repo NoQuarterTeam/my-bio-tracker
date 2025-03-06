@@ -10,6 +10,7 @@ export default {
   images: {
     unoptimized: true,
   },
+  serverExternalPackages: ["pdfjs-dist"],
   experimental: {
     webpackBuildWorker: true,
     parallelServerBuildTraces: true,

@@ -82,7 +82,7 @@
   ::before,
   ::backdrop,
   ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
+    border-color: var(--color-neutral-200, currentColor);
   }
 }
 
@@ -97,7 +97,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 50 100% 47%;
+    --primary: 250 100% 27%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
