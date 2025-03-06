@@ -1,6 +1,8 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { getUserSession } from "@/lib/server/auth"
 import { db } from "@/lib/server/db"
+import { testRecords } from "@/lib/server/db/schema"
+import { eq } from "drizzle-orm"
 import { TestChart } from "./test-chart"
 
 export default async function Page() {
@@ -8,14 +10,26 @@ export default async function Page() {
 
   if (!userId) return <div>Login in to do stuff</div>
 
-  const testResults = await db.query.testResults.findMany({ with: { record: true } })
+  // First, get all records that belong to the current user
+  const records = await db.query.testRecords.findMany({
+    where: eq(testRecords.userId, userId),
+  })
+
+  // Get the record IDs to use in the filter
+  const userRecordIds = records.map((record) => record.id)
+
+  // Then get test results that belong to those records
+  const testResults = await db.query.testResults.findMany({
+    where: (results, { inArray }) => inArray(results.recordId, userRecordIds),
+    with: { record: true },
+  })
 
   // Group test results by test name
   const testTimelines = testResults.reduce(
     (acc, result) => {
       if (!acc[result.testName]) {
         acc[result.testName] = {
-          unit: result.unit,
+          unit: result.unit || "",
           referenceMin: result.referenceMin,
           referenceMax: result.referenceMax,
           results: [],

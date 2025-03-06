@@ -51,7 +51,8 @@
       },
       "style": {
         "noNonNullAssertion": "off",
-        "noUnusedTemplateLiteral": "off"
+        "noUnusedTemplateLiteral": "off",
+        "useTemplate": "off"
       }
     }
   }

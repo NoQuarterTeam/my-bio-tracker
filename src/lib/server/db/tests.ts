@@ -25,7 +25,7 @@ export const testResults = pgTable("test_result", {
     .references(() => testRecords.id, { onDelete: "cascade" }),
   testName: varchar("test_name", { length: 255 }).notNull(),
   value: varchar("value", { length: 100 }).notNull(),
-  unit: varchar("unit", { length: 50 }).notNull(),
+  unit: varchar("unit", { length: 50 }),
   category: varchar("category", { length: 100 }).notNull(),
   referenceMin: varchar("reference_min", { length: 100 }),
   referenceMax: varchar("reference_max", { length: 100 }),
