@@ -8,6 +8,8 @@ import { TestChart } from "./test-chart"
 export default async function Page() {
   const userId = await getUserSession()
 
+  getUserSession()
+
   if (!userId) return <div>Login in to do stuff</div>
 
   // First, get all records that belong to the current user
