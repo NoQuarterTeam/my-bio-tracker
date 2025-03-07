@@ -1,4 +1,5 @@
 {
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "organizeImports": { "enabled": true },
   "formatter": {
     "enabled": true,
@@ -27,7 +28,6 @@
         "useSemanticElements": "off"
       },
       "nursery": {
-        "noFloatingPromises": "error",
         "useSortedClasses": {
           "level": "warn",
           "options": {

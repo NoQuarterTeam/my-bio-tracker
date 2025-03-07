@@ -111,15 +111,17 @@ export default async function Page() {
                         Latest:{" "}
                         <span
                           className={
-                            referenceMin > 0 &&
-                            referenceMax > 0 &&
-                            Number.parseFloat(timeline.results[0].value) >= referenceMin &&
-                            Number.parseFloat(timeline.results[0].value) <= referenceMax
-                              ? "text-green-600"
-                              : "text-red-500"
+                            timeline.results[0].value
+                              ? referenceMin > 0 &&
+                                referenceMax > 0 &&
+                                Number.parseFloat(timeline.results[0].value) >= referenceMin &&
+                                Number.parseFloat(timeline.results[0].value) <= referenceMax
+                                ? "text-green-600"
+                                : "text-red-500"
+                              : "text-muted-foreground"
                           }
                         >
-                          {timeline.results[0]?.value}
+                          {timeline.results[0]?.value || "N/A"}
                         </span>
                       </div>
                       <div className="text-right">

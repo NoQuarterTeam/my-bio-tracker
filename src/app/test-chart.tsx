@@ -26,7 +26,7 @@ export function TestChart({ name, referenceMax, referenceMin, unit, data }: Prop
 
   return (
     <ChartContainer config={chartConfig} className="px-0">
-      <LineChart data={data} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
+      <LineChart data={data} margin={{ top: 5, right: 5, left: 5, bottom: 20 }}>
         <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
         <XAxis
           dataKey="date"
