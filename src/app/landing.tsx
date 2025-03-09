@@ -64,7 +64,7 @@ export function Landing() {
         <div className="grid grid-cols-1 gap-4 py-4 sm:grid-cols-2 md:grid-cols-3">
           {Object.entries(sampleChartData).map(([key, chartInfo]) => (
             <Card key={key} className="overflow-hidden">
-              <CardHeader className="p-3 pb-0">
+              <CardHeader className="p-3">
                 <CardTitle className="flex items-center justify-between text-sm">
                   <span>{chartInfo.name}</span>
                   <span className="font-normal text-muted-foreground text-xs">{chartInfo.unit}</span>
@@ -73,7 +73,7 @@ export function Landing() {
                   Range: {chartInfo.referenceMin} - {chartInfo.referenceMax} {chartInfo.unit}
                 </CardDescription>
               </CardHeader>
-              <CardContent className="p-3 pt-0">
+              <CardContent className="p-3">
                 <div className="h-[160px]">
                   <MarkerChart
                     unit={chartInfo.unit}

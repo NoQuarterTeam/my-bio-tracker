@@ -26,10 +26,6 @@ export default async function Page() {
     with: { document: true },
   })
 
-  // Check if there are any markers
-
-  const hasDocuments = docs.length > 0
-
   // Group markers by name
   const markerTimelines = documentMarkers.reduce(
     (acc, marker) => {
@@ -65,17 +61,17 @@ export default async function Page() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl space-y-4 p-4">
-      <div className="flex items-center justify-between">
-        <div className="flex flex-col space-y-1">
-          <h2 className="font-bold text-xl">Health Markers Timeline</h2>
-          <p className="text-muted-foreground text-sm">View your health markers over time to track your progress.</p>
+    <div className="container py-10">
+      <div className="mb-8 flex items-center justify-between">
+        <div>
+          <h1 className="font-bold text-3xl tracking-tight">Health Markers Timeline</h1>
+          <p className="text-muted-foreground">View your health markers over time to track your progress.</p>
         </div>
       </div>
 
-      {!hasDocuments ? (
+      {documentMarkers.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-lg border py-16">
-          <h3 className="mb-2 font-semibold text-xl">No documents found</h3>
+          <h3 className="mb-2 font-semibold text-xl">No markers yet</h3>
           <p className="mb-6 max-w-md text-center text-muted-foreground">
             Upload your first document to get started tracking your biomarkers
           </p>

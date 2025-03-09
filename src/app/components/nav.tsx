@@ -14,22 +14,23 @@ import Link from "next/link"
 import { redirect } from "next/navigation"
 import { NavThemeSwitcher } from "./nav-theme-switcher"
 import { UploadDocument } from "./upload-document"
+
 export async function Nav() {
   const user = await getMaybeUser()
 
   return (
     <nav className="flex items-center justify-between border-b px-6 py-4">
       <div className="flex items-center gap-3">
-        <Link href="/" className="font-semibold text-lg">
+        <Link href="/" className="whitespace-nowrap font-semibold text-lg">
           My Bio Tracker
         </Link>
-        <Button variant="ghost" size="sm" asChild>
+        <Button className="hidden md:flex" variant="ghost" size="sm" asChild>
           <Link href="/" className="flex items-center gap-2">
             <HomeIcon className="h-4 w-4" />
             <span>Dashboard</span>
           </Link>
         </Button>
-        <Button variant="ghost" size="sm" asChild>
+        <Button className="hidden md:flex" variant="ghost" size="sm" asChild>
           <Link href="/documents" className="flex items-center gap-2">
             <ClipboardList className="h-4 w-4" />
             <span>Documents</span>
@@ -54,6 +55,12 @@ export async function Nav() {
                     <Link href="/profile" className="flex cursor-pointer items-center gap-2">
                       <User className="h-4 w-4" />
                       <span>Profile</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/documents" className="flex cursor-pointer items-center gap-2">
+                      <ClipboardList className="h-4 w-4" />
+                      <span>Documents</span>
                     </Link>
                   </DropdownMenuItem>
                   <NavThemeSwitcher />

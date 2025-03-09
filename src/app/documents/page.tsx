@@ -48,7 +48,6 @@ export default async function Page() {
           <h1 className="font-bold text-3xl tracking-tight">Documents</h1>
           <p className="text-muted-foreground">View and manage your documents</p>
         </div>
-        <UploadDocument />
       </div>
 
       {docs.length === 0 ? (
@@ -71,13 +70,15 @@ export default async function Page() {
           {docs.map((doc) => (
             <Card key={doc.id}>
               <CardHeader>
-                <div className="flex items-start justify-between pt-6">
-                  <CardTitle className="font-bold text-lg">{formatDate(doc.date)}</CardTitle>
-                  <DeleteDocumentDialog documentId={doc.id} onDelete={deleteDocument} />
+                <div>
+                  <div className="flex items-start justify-between">
+                    <CardTitle className="font-bold text-lg">{formatDate(doc.date)}</CardTitle>
+                    <DeleteDocumentDialog documentId={doc.id} onDelete={deleteDocument} />
+                  </div>
+                  <CardDescription>
+                    {doc.markers.length} marker{doc.markers.length !== 1 ? "s" : ""}
+                  </CardDescription>
                 </div>
-                <CardDescription>
-                  {doc.markers.length} marker{doc.markers.length !== 1 ? "s" : ""}
-                </CardDescription>
               </CardHeader>
               <CardContent>
                 {doc.notes ? (
