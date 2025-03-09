@@ -45,7 +45,7 @@ openssl rand -hex 32
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/jclackett/my-bio-tracker
+git clone https://github.com/NoQuarterTeam/my-bio-tracker
 cd my-bio-tracker
 ```
 
