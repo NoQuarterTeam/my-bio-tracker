@@ -3,6 +3,7 @@ import { getUserSession } from "@/lib/server/auth"
 import { db } from "@/lib/server/db"
 import { documents } from "@/lib/server/db/tests"
 import { eq } from "drizzle-orm"
+import { UploadDocument } from "./components/upload-document"
 import { Landing } from "./landing"
 import { MarkerChart } from "./marker-chart"
 
@@ -24,6 +25,10 @@ export default async function Page() {
     where: (marker, { inArray }) => inArray(marker.documentId, userDocumentIds),
     with: { document: true },
   })
+
+  // Check if there are any markers
+
+  const hasDocuments = docs.length > 0
 
   // Group markers by name
   const markerTimelines = documentMarkers.reduce(
@@ -60,92 +65,104 @@ export default async function Page() {
   }
 
   return (
-    <div className="space-y-4 p-4">
-      <div className="flex flex-col space-y-1">
-        <h2 className="font-bold text-xl">Health Markers Timeline</h2>
-        <p className="text-muted-foreground text-sm">View your health markers over time to track your progress.</p>
+    <div className="mx-auto max-w-7xl space-y-4 p-4">
+      <div className="flex items-center justify-between">
+        <div className="flex flex-col space-y-1">
+          <h2 className="font-bold text-xl">Health Markers Timeline</h2>
+          <p className="text-muted-foreground text-sm">View your health markers over time to track your progress.</p>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {Object.entries(markerTimelines).map(([name, timeline]) => {
-          const chartData = formatChartData(name, timeline)
+      {!hasDocuments ? (
+        <div className="flex flex-col items-center justify-center rounded-lg border py-16">
+          <h3 className="mb-2 font-semibold text-xl">No documents found</h3>
+          <p className="mb-6 max-w-md text-center text-muted-foreground">
+            Upload your first document to get started tracking your biomarkers
+          </p>
+          <UploadDocument />
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {Object.entries(markerTimelines).map(([name, timeline]) => {
+            const chartData = formatChartData(name, timeline)
 
-          // Skip if no data
-          if (chartData.length === 0) return null
+            // Skip if no data
+            if (chartData.length === 0) return null
 
-          // Parse range values to numbers for reference lines
-          const referenceMin = timeline.referenceMin ? Number.parseFloat(timeline.referenceMin) : 0
-          const referenceMax = timeline.referenceMax ? Number.parseFloat(timeline.referenceMax) : 0
+            // Parse range values to numbers for reference lines
+            const referenceMin = timeline.referenceMin ? Number.parseFloat(timeline.referenceMin) : 0
+            const referenceMax = timeline.referenceMax ? Number.parseFloat(timeline.referenceMax) : 0
 
-          return (
-            <Card key={name} className="overflow-hidden">
-              <CardHeader className="p-3 pb-0">
-                <CardTitle className="flex items-center justify-between text-sm">
-                  <span>{name}</span>
-                  <span className="font-normal text-muted-foreground text-xs">{timeline.unit}</span>
-                </CardTitle>
-                <CardDescription className="text-xs">
-                  Range: {timeline.referenceMin || "N/A"} - {timeline.referenceMax || "N/A"} {timeline.unit}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="p-3 pt-0">
-                <div className="h-[160px]">
-                  <MarkerChart
-                    unit={timeline.unit}
-                    name={name}
-                    data={chartData}
-                    referenceMin={referenceMin}
-                    referenceMax={referenceMax}
-                  />
-                </div>
-                {timeline.markers.length > 0 && (
-                  <div className="mt-1 text-xs">
-                    <div className="grid grid-cols-2 gap-2">
-                      <div className="font-medium">
-                        Latest:{" "}
-                        <span
-                          className={
-                            timeline.markers[0].value
-                              ? referenceMin > 0 &&
-                                referenceMax > 0 &&
-                                Number.parseFloat(timeline.markers[0].value) >= referenceMin &&
-                                Number.parseFloat(timeline.markers[0].value) <= referenceMax
-                                ? "text-green-600"
-                                : "text-red-500"
-                              : "text-muted-foreground"
-                          }
-                        >
-                          {timeline.markers[0]?.value || "N/A"}
-                        </span>
-                      </div>
-                      <div className="text-right">
-                        {timeline.markers.length > 1 && (
+            return (
+              <Card key={name} className="overflow-hidden">
+                <CardHeader className="p-3 pb-0">
+                  <CardTitle className="flex items-center justify-between text-sm">
+                    <span>{name}</span>
+                    <span className="font-normal text-muted-foreground text-xs">{timeline.unit}</span>
+                  </CardTitle>
+                  <CardDescription className="text-xs">
+                    Range: {timeline.referenceMin || "N/A"} - {timeline.referenceMax || "N/A"} {timeline.unit}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="p-3 pt-0">
+                  <div className="h-[160px]">
+                    <MarkerChart
+                      unit={timeline.unit}
+                      name={name}
+                      data={chartData}
+                      referenceMin={referenceMin}
+                      referenceMax={referenceMax}
+                    />
+                  </div>
+                  {timeline.markers.length > 0 && (
+                    <div className="mt-1 text-xs">
+                      <div className="grid grid-cols-2 gap-2">
+                        <div className="font-medium">
+                          Latest:{" "}
                           <span
                             className={
-                              Number.parseFloat(timeline.markers[0].value) > Number.parseFloat(timeline.markers[1].value)
-                                ? "text-green-500"
-                                : Number.parseFloat(timeline.markers[0].value) < Number.parseFloat(timeline.markers[1].value)
-                                  ? "text-red-500"
-                                  : ""
+                              timeline.markers[0].value
+                                ? referenceMin > 0 &&
+                                  referenceMax > 0 &&
+                                  Number.parseFloat(timeline.markers[0].value) >= referenceMin &&
+                                  Number.parseFloat(timeline.markers[0].value) <= referenceMax
+                                  ? "text-green-600"
+                                  : "text-red-500"
+                                : "text-muted-foreground"
                             }
                           >
-                            {Number.parseFloat(timeline.markers[0].value) > Number.parseFloat(timeline.markers[1].value)
-                              ? "↑"
-                              : "↓"}
-                            {Math.abs(
-                              Number.parseFloat(timeline.markers[0].value) - Number.parseFloat(timeline.markers[1].value),
-                            ).toFixed(2)}
+                            {timeline.markers[0]?.value || "N/A"}
                           </span>
-                        )}
+                        </div>
+                        <div className="text-right">
+                          {timeline.markers.length > 1 && (
+                            <span
+                              className={
+                                Number.parseFloat(timeline.markers[0].value) > Number.parseFloat(timeline.markers[1].value)
+                                  ? "text-green-500"
+                                  : Number.parseFloat(timeline.markers[0].value) < Number.parseFloat(timeline.markers[1].value)
+                                    ? "text-red-500"
+                                    : ""
+                              }
+                            >
+                              {Number.parseFloat(timeline.markers[0].value) > Number.parseFloat(timeline.markers[1].value)
+                                ? "↑"
+                                : "↓"}
+                              {Math.abs(
+                                Number.parseFloat(timeline.markers[0].value) - Number.parseFloat(timeline.markers[1].value),
+                              ).toFixed(2)}
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          )
-        })}
-      </div>
+                  )}
+                </CardContent>
+              </Card>
+            )
+          })}
+        </div>
+      )}
     </div>
   )
 }

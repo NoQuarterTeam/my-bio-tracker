@@ -107,6 +107,7 @@ export async function POST(request: NextRequest) {
     }
 
     revalidatePath("/")
+    revalidatePath("/documents")
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error(error)

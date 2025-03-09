@@ -44,7 +44,7 @@ export function UploadDocument() {
         <input {...dropzone.getInputProps()} />
         <Button variant="outline">
           <UploadIcon />
-          <span>Upload document</span>
+          <span>Upload documents</span>
         </Button>
       </div>
 
