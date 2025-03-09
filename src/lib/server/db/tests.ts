@@ -7,6 +7,7 @@ export const documents = pgTable("document", {
   id: uuid("id").primaryKey().defaultRandom(),
   date: timestamp("date").notNull(),
   notes: text("notes").default(""),
+  mistralId: varchar("mistral_id", { length: 255 }).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
     .defaultNow()

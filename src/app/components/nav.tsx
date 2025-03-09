@@ -30,7 +30,7 @@ export async function Nav() {
           </Link>
         </Button>
         <Button variant="ghost" size="sm" asChild>
-          <Link href="/test-records" className="flex items-center gap-2">
+          <Link href="/documents" className="flex items-center gap-2">
             <ClipboardList className="h-4 w-4" />
             <span>Documents</span>
           </Link>

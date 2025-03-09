@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 
 import { FileIcon, UploadIcon, XIcon } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useDropzone } from "react-dropzone"
 import { toast } from "sonner"
@@ -16,11 +17,13 @@ async function sendDocuments(url: string, { arg }: { arg: FormData }) {
 }
 
 export function UploadDocument() {
+  const router = useRouter()
   const { trigger, isMutating, error } = useSWRMutation("/api/upload", sendDocuments, {
     onSuccess: (data) => {
       if (!data.success) return toast.error(data.error)
       toast.success("Documents uploaded successfully")
       setFiles([])
+      router.refresh()
     },
   })
   const [files, setFiles] = useState<File[]>([])
@@ -32,7 +35,6 @@ export function UploadDocument() {
     for (const file of files) {
       formData.append("files", file)
     }
-
     trigger(formData)
   }
 
@@ -42,7 +44,7 @@ export function UploadDocument() {
         <input {...dropzone.getInputProps()} />
         <Button variant="outline">
           <UploadIcon />
-          <span>Upload</span>
+          <span>Upload document</span>
         </Button>
       </div>
 

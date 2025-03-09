@@ -14,6 +14,7 @@ export const env = createEnv({
     OPENAI_API_KEY: z.string().min(1),
     APP_SECRET: z.string().min(1),
     APP_AUTH_SECRET: z.string().min(1),
+    MISTRAL_API_KEY: z.string().min(1),
     NODE_ENV: z.enum(["development", "production", "preview"]).default("development"),
   },
   /*
@@ -37,6 +38,7 @@ export const env = createEnv({
     APP_SECRET: process.env.APP_SECRET,
     APP_AUTH_SECRET: process.env.APP_AUTH_SECRET,
     NODE_ENV: process.env.NODE_ENV,
+    MISTRAL_API_KEY: process.env.MISTRAL_API_KEY,
   },
 })
 
