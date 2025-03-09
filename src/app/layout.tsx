@@ -5,16 +5,16 @@ import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+import { Outfit } from "next/font/google"
 import { Suspense } from "react"
 import { Toaster } from "sonner"
 import { Nav } from "./components/nav"
 
-const inter = Inter({ subsets: ["latin"] })
+const sans = Outfit({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Blood Work Health Tracker",
-  description: "Track and analyze your blood test results over time",
+  description: "Track and analyze your health markers over time",
   icons: { icon: "/favicon.ico" },
 }
 
@@ -25,7 +25,7 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn("min-h-screen bg-background font-sans antialiased", inter.className)}>
+      <body className={cn("min-h-screen bg-background font-sans antialiased", sans.className)}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <div className="relative flex min-h-screen flex-col">
             <Nav />

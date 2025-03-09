@@ -2,8 +2,8 @@ import { relations } from "drizzle-orm"
 import { pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core"
 import { createSelectSchema } from "drizzle-zod"
 
-// Table for test records (lab reports)
-export const testRecords = pgTable("test_record", {
+// Table for documents (lab reports)
+export const documents = pgTable("document", {
   id: uuid("id").primaryKey().defaultRandom(),
   date: timestamp("date").notNull(),
   notes: text("notes").default(""),
@@ -15,33 +15,35 @@ export const testRecords = pgTable("test_record", {
   userId: uuid("user_id").notNull(),
 })
 
-export const testRecordSelectSchema = createSelectSchema(testRecords)
+export const documentSelectSchema = createSelectSchema(documents)
 
-// Table for individual test results within a record
-export const testResults = pgTable("test_result", {
+// Table for individual markers within a document
+export const markers = pgTable("marker", {
   id: uuid("id").primaryKey().defaultRandom(),
-  recordId: uuid("record_id")
-    .notNull()
-    .references(() => testRecords.id, { onDelete: "cascade" }),
-  testName: varchar("test_name", { length: 255 }).notNull(),
+  documentId: uuid("document_id").references(() => documents.id, { onDelete: "cascade" }),
+  name: varchar("name", { length: 255 }).notNull(),
   value: varchar("value", { length: 100 }).notNull(),
   unit: varchar("unit", { length: 50 }),
   category: varchar("category", { length: 100 }).notNull(),
   referenceMin: varchar("reference_min", { length: 100 }),
   referenceMax: varchar("reference_max", { length: 100 }),
   createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at")
+    .defaultNow()
+    .notNull()
+    .$onUpdate(() => new Date()),
 })
 
-export const testResultSelectSchema = createSelectSchema(testResults)
+export const markerSelectSchema = createSelectSchema(markers)
 
 // Define relations using Drizzle's relations helper
-export const testRecordsRelations = relations(testRecords, ({ many }) => ({
-  results: many(testResults),
+export const documentsRelations = relations(documents, ({ many }) => ({
+  markers: many(markers),
 }))
 
-export const testResultsRelations = relations(testResults, ({ one }) => ({
-  record: one(testRecords, {
-    fields: [testResults.recordId],
-    references: [testRecords.id],
+export const markersRelations = relations(markers, ({ one }) => ({
+  document: one(documents, {
+    fields: [markers.documentId],
+    references: [documents.id],
   }),
 }))

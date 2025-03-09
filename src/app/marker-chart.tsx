@@ -16,7 +16,7 @@ interface Props {
   }[]
 }
 
-export function TestChart({ name, referenceMax, referenceMin, unit, data }: Props) {
+export function MarkerChart({ name, referenceMax, referenceMin, unit, data }: Props) {
   const chartConfig = {
     [name]: {
       label: name,

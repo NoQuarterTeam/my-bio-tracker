@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { clearSession, getMaybeUser } from "@/lib/server/auth"
-import { LogOutIcon, Settings, User, UserIcon } from "lucide-react"
+import { ClipboardList, HomeIcon, LogOutIcon, Settings, User, UserIcon } from "lucide-react"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 import { UploadDocument } from "./upload-document"
@@ -19,9 +19,23 @@ export async function Nav() {
 
   return (
     <nav className="flex items-center justify-between border-b px-6 py-4">
-      <Link href="/">
-        <span className="font-semibold text-lg">BioTracker</span>
-      </Link>
+      <div className="flex items-center gap-3">
+        <Link href="/" className="font-semibold text-lg">
+          My Bio Tracker
+        </Link>
+        <Button variant="ghost" size="sm" asChild>
+          <Link href="/" className="flex items-center gap-2">
+            <HomeIcon className="h-4 w-4" />
+            <span>Dashboard</span>
+          </Link>
+        </Button>
+        <Button variant="ghost" size="sm" asChild>
+          <Link href="/test-records" className="flex items-center gap-2">
+            <ClipboardList className="h-4 w-4" />
+            <span>Documents</span>
+          </Link>
+        </Button>
+      </div>
 
       <div className="flex items-center gap-4">
         {user ? (
