@@ -1,23 +1,25 @@
 # My Bio Tracker
 
-A comprehensive biological data tracking application built with Next.js, deployed on Vercel, and using Neon for PostgreSQL database.
+A comprehensive biological data tracking application built with Next.js, deployed on Vercel, and using PostgreSQL database.
 
 ## Tech Stack
 
 - **Frontend & Backend**: Next.js 15
-- **Database**: PostgreSQL (Neon)
+- **Database**: PostgreSQL (compatible with any provider)
 - **Styling**: Tailwind CSS with shadcn/ui components
 - **Authentication**: Custom auth solution
 - **ORM**: Drizzle ORM
 - **AI Integration**: OpenAI and Mistral AI
+- **User Engagement**: Loops
 - **Deployment**: Vercel
 
 ## Prerequisites
 
 - Node.js 20+ or Bun
-- Neon PostgreSQL database
+- PostgreSQL database (Neon, Supabase, or any other PostgreSQL provider)
 - OpenAI API key
 - Mistral AI API key
+- Loops API key
 - Vercel account (for deployment)
 
 ## Environment Variables
@@ -25,11 +27,12 @@ A comprehensive biological data tracking application built with Next.js, deploye
 Create a `.env.local` file in the root directory with the following variables:
 
 ```
-DATABASE_URL=your_neon_postgresql_connection_string
+DATABASE_URL=your_postgresql_connection_string
 OPENAI_API_KEY=your_openai_api_key
 APP_SECRET=your_app_secret_for_general_encryption
 APP_AUTH_SECRET=your_app_auth_secret_for_authentication
 MISTRAL_API_KEY=your_mistral_api_key
+LOOPS_API_KEY=your_loops_api_key
 ```
 
 ### Generating Secrets
@@ -57,11 +60,12 @@ bun install
 
 3. **Set up the database**
 
-Create a PostgreSQL database on [Neon](https://neon.tech):
-- Sign up for a Neon account
-- Create a new project
-- Create a new database named `biotracker` (or whatever you want)
-- Get your connection string and add it to your `.env.local` file
+Create a PostgreSQL database using any provider of your choice:
+- [Neon](https://neon.tech)
+- [Supabase](https://supabase.com)
+- [Railway](https://railway.app)
+- Or any other PostgreSQL provider
+- Get your connection string and add it to your `.env.local` file as `DATABASE_URL`
 
 4. **Run database migrations**
 
@@ -105,6 +109,12 @@ The application will be available at [http://localhost:3000](http://localhost:30
 1. Create an account at [Mistral AI](https://mistral.ai/)
 2. Generate an API key
 3. Add the key to your `.env.local` file as `MISTRAL_API_KEY`
+
+### Loops API
+
+1. Create an account at [Loops](https://loops.so/)
+2. Generate an API key
+3. Add the key to your `.env.local` file as `LOOPS_API_KEY`
 
 ## Project Structure
 
