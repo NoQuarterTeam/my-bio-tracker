@@ -15,6 +15,7 @@ export const env = createEnv({
     APP_SECRET: z.string().min(1),
     APP_AUTH_SECRET: z.string().min(1),
     MISTRAL_API_KEY: z.string().min(1),
+    LOOPS_API_KEY: z.string().min(1),
     NODE_ENV: z.enum(["development", "production", "preview"]).default("development"),
   },
   /*
@@ -23,6 +24,7 @@ export const env = createEnv({
    * 💡 You'll get type errors if these are not prefixed with NEXT_PUBLIC_.
    */
   client: {
+    NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL: z.string().url().default("localhost:3000"),
     NEXT_PUBLIC_VERCEL_ENV: z.enum(["production", "preview", "development"]).default("development"),
   },
   /*
@@ -32,6 +34,7 @@ export const env = createEnv({
    * 💡 You'll get type errors if not all variables from `server` & `client` are included here.
    */
   runtimeEnv: {
+    NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL: process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL,
     DATABASE_URL: process.env.DATABASE_URL,
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
     NEXT_PUBLIC_VERCEL_ENV: process.env.NEXT_PUBLIC_VERCEL_ENV,
@@ -39,9 +42,12 @@ export const env = createEnv({
     APP_AUTH_SECRET: process.env.APP_AUTH_SECRET,
     NODE_ENV: process.env.NODE_ENV,
     MISTRAL_API_KEY: process.env.MISTRAL_API_KEY,
+    LOOPS_API_KEY: process.env.LOOPS_API_KEY,
   },
 })
 
 export const isProduction = env.NEXT_PUBLIC_VERCEL_ENV === "production"
 export const isPreview = env.NEXT_PUBLIC_VERCEL_ENV === "preview"
 export const isDevelopment = env.NEXT_PUBLIC_VERCEL_ENV === "development"
+
+export const APP_URL = isDevelopment ? "http://localhost:3000" : `https://${env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}`

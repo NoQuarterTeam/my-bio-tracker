@@ -11,6 +11,9 @@ export default function Page() {
       <Input required type="password" placeholder="Password" name="password" />
       <FormButton>Login</FormButton>
       <Link href="/register">Don&apos;t have an account? Register</Link>
+      <Link href="/forgot-password" className="text-muted-foreground text-sm">
+        Forgot your password?
+      </Link>
     </form>
   )
 }

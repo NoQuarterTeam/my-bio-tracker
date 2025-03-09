@@ -1,84 +1,15 @@
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { getUserSession } from "@/lib/server/auth"
 import { db } from "@/lib/server/db"
 import { documents } from "@/lib/server/db/tests"
 import { eq } from "drizzle-orm"
-import Link from "next/link"
+import { Landing } from "./landing"
 import { MarkerChart } from "./marker-chart"
 
 export default async function Page() {
   const userId = await getUserSession()
 
-  if (!userId) {
-    return (
-      <div className="flex min-h-[80vh] flex-col items-center justify-center p-6 text-center">
-        <div className="max-w-6xl space-y-6">
-          <div>
-            <h1 className="font-bold text-4xl tracking-tight">Track Your Health Journey with Bio Tracker</h1>
-            <p className="text-muted-foreground text-xl">
-              Your personal health metrics dashboard for monitoring biomarkers and health data over time. All code is open source
-              and available on{" "}
-              <a href="https://github.com/jclackett/my-bio-tracker" className="underline">
-                GitHub
-              </a>
-              .
-            </p>
-          </div>
-
-          <div className="grid grid-cols-3 gap-4 py-4">
-            <Card className="gap-3">
-              <CardHeader className="pt-6">
-                <CardTitle className="text-xl">Visualize Your Health Data</CardTitle>
-                <CardDescription>Track trends and patterns in your biomarkers over time</CardDescription>
-              </CardHeader>
-              <CardContent className="flex h-full items-center justify-center pb-6">
-                <p>
-                  See your health metrics displayed in beautiful, easy-to-understand charts that help you identify trends and make
-                  informed decisions about your health.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="gap-3">
-              <CardHeader className="pt-6">
-                <CardTitle className="text-xl">Monitor Reference Ranges</CardTitle>
-                <CardDescription>Know when your values are within optimal ranges</CardDescription>
-              </CardHeader>
-              <CardContent className="flex h-full items-center justify-center pb-6">
-                <p>
-                  Automatically compare your biomarker values against reference ranges to quickly identify which metrics need
-                  attention.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="gap-3">
-              <CardHeader className="pt-6">
-                <CardTitle className="text-xl">Secure and Private</CardTitle>
-                <CardDescription>Your health data stays private and protected</CardDescription>
-              </CardHeader>
-              <CardContent className="flex h-full items-center justify-center pb-6">
-                <p>
-                  We prioritize the security and privacy of your sensitive health information with secure storage and
-                  user-controlled access.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-
-          <div className="flex flex-col justify-center gap-4 pt-4 sm:flex-row">
-            <Button asChild size="lg" className="w-full sm:w-auto">
-              <Link href="/register">Create an Account</Link>
-            </Button>
-            <Button asChild variant="outline" size="lg" className="w-full sm:w-auto">
-              <Link href="/login">Sign In</Link>
-            </Button>
-          </div>
-        </div>
-      </div>
-    )
-  }
+  if (!userId) return <Landing />
 
   // First, get all documents that belong to the current user
   const docs = await db.query.documents.findMany({

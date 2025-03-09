@@ -9,11 +9,11 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { clearSession, getMaybeUser } from "@/lib/server/auth"
-import { ClipboardList, HomeIcon, LogOutIcon, Settings, User, UserIcon } from "lucide-react"
+import { ClipboardList, HomeIcon, LogOutIcon, User, UserIcon } from "lucide-react"
 import Link from "next/link"
 import { redirect } from "next/navigation"
+import { NavThemeSwitcher } from "./nav-theme-switcher"
 import { UploadDocument } from "./upload-document"
-
 export async function Nav() {
   const user = await getMaybeUser()
 
@@ -50,14 +50,13 @@ export async function Nav() {
 
               <DropdownMenuPortal>
                 <DropdownMenuContent className="min-w-[180px]" sideOffset={5} align="end">
-                  <DropdownMenuItem>
-                    <User />
-                    <span>Profile</span>
+                  <DropdownMenuItem asChild>
+                    <Link href="/profile" className="flex cursor-pointer items-center gap-2">
+                      <User className="h-4 w-4" />
+                      <span>Profile</span>
+                    </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Settings />
-                    <span>Settings</span>
-                  </DropdownMenuItem>
+                  <NavThemeSwitcher />
                   <DropdownMenuSeparator className="my-1 h-px bg-border" />
                   {user ? (
                     <DropdownMenuItem
@@ -67,7 +66,7 @@ export async function Nav() {
                         redirect("/login")
                       }}
                     >
-                      <LogOutIcon />
+                      <LogOutIcon className="h-4 w-4" />
                       <span>Logout</span>
                     </DropdownMenuItem>
                   ) : (
