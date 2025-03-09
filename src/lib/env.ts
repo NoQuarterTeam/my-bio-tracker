@@ -24,7 +24,7 @@ export const env = createEnv({
    * 💡 You'll get type errors if these are not prefixed with NEXT_PUBLIC_.
    */
   client: {
-    NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL: z.string().url().default("localhost:3000"),
+    NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL: z.string().default("localhost:3000"),
     NEXT_PUBLIC_VERCEL_ENV: z.enum(["production", "preview", "development"]).default("development"),
   },
   /*
