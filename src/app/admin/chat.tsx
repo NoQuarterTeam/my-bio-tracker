@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { type Message as AiMessage, useChat } from "@ai-sdk/react"
 import { motion } from "framer-motion"
-import { ChevronRightIcon, SendIcon, SparklesIcon, SquareIcon } from "lucide-react"
+import { SendIcon, SparklesIcon, SquareIcon } from "lucide-react"
 import { memo, useRef, useState } from "react"
 import remarkGfm from "remark-gfm"
 import { MemoizedReactMarkdown } from "../components/markdown"
@@ -29,42 +29,36 @@ export function Chat() {
       </div>
 
       {/* Messages Area */}
-      <div className="scrollbar-hide mx-auto w-full max-w-3xl flex-1 overflow-y-auto bg-background p-4 pb-[100px]">
-        <div className="w-full space-y-6 ">
-          {messages.map((message, index) => (
-            <div key={message.id} className={cn("flex", message.role === "user" ? "justify-end" : "justify-start")}>
-              <div
-                className={cn(
-                  "flex max-w-[80%] items-start gap-3",
-                  message.role === "user" && "rounded-xl bg-black px-3 py-2 dark:bg-white",
-                )}
-              >
-                {message.role === "assistant" && (
-                  <div className="flex size-8 shrink-0 items-center justify-center rounded-full ring-1 ring-border">
-                    <SparklesIcon size={14} />
-                  </div>
-                )}
-
-                {message.role === "user" ? (
-                  <p className="text-white dark:text-black">{message.content}</p>
-                ) : (
-                  <div className={cn("space-y-2", messages.length === index + 1 && "min-h-[calc(100vh-34rem)]")}>
-                    {message.parts?.map((part, index) => (
-                      <MessagePart key={index} part={part} />
-                    ))}
-                  </div>
-                )}
-              </div>
+      <div className="scrollbar-hide mx-auto w-full max-w-3xl flex-1 space-y-6 overflow-y-auto bg-background p-4 pb-[100px]">
+        {messages.map((message, index) => (
+          <div key={message.id} className={cn("flex", message.role === "user" ? "justify-end" : "justify-start")}>
+            <div className="scrollbar-hide flex max-w-[80%] items-start gap-3">
+              {message.role === "assistant" && (
+                <div className="flex size-8 shrink-0 items-center justify-center rounded-full ring-1 ring-border">
+                  <SparklesIcon size={14} />
+                </div>
+              )}
+              {message.role === "user" ? (
+                <div className="w-min rounded-xl bg-black px-3 py-2 dark:bg-white">
+                  <p className="whitespace-nowrap text-white dark:text-black">{message.content}</p>
+                </div>
+              ) : (
+                <div className={cn("w-full space-y-2", messages.length === index + 1 && "min-h-[calc(100vh-34rem)]")}>
+                  {message.parts?.map((part, index) => (
+                    <MessagePart key={index} part={part} />
+                  ))}
+                </div>
+              )}
             </div>
-          ))}
-          {(isSubmitted || (isLoading && messages.length > 0 && messages[messages.length - 1]?.role === "user")) && (
-            <div className="min-h-[calc(100vh-34rem)]">
-              <ThinkingMessage />
-            </div>
-          )}
+          </div>
+        ))}
+        {(isSubmitted || (isLoading && messages.length > 0 && messages[messages.length - 1]?.role === "user")) && (
+          <div className="min-h-[calc(100vh-34rem)]">
+            <ThinkingMessage />
+          </div>
+        )}
 
-          <div ref={messagesEndRef} />
-        </div>
+        <div ref={messagesEndRef} />
       </div>
 
       {/* Input Area */}
@@ -125,32 +119,41 @@ const MessagePart = memo(function _Message({ part }: { part: NonNullable<AiMessa
       return null
     case "text": {
       return (
-        <div className="prose dark:prose-invert !max-w-full !text-black dark:!text-white space-y-2 overflow-x-auto break-words">
+        <div className="prose dark:prose-invert !text-black dark:!text-white space-y-2 overflow-x-auto break-words">
           <MemoizedReactMarkdown
             remarkPlugins={[remarkGfm]}
             components={{
               table: ({ node: _, ...props }) => (
-                <div className="overflow-x-auto rounded-sm border">
-                  <table
-                    className={cn(
-                      props.className,
-                      "w-full table-auto text-left text-gray-500 text-sm rtl:text-right dark:text-gray-400",
-                    )}
-                    {...props}
-                  />
+                <div className="relative overflow-hidden rounded-xl border">
+                  <div className="scrollbar-hide relative w-full overflow-auto pr-6">
+                    <table
+                      className={cn(
+                        props.className,
+                        "w-full table-auto text-left text-gray-500 text-sm rtl:text-right dark:text-gray-400",
+                      )}
+                      {...props}
+                    />
+                  </div>
+                  <div className="absolute top-0 right-0 bottom-0 w-6 overflow-hidden rounded-r-2xl bg-gradient-to-r from-transparent to-background" />
                 </div>
               ),
               thead: ({ node: _, ...props }) => (
                 <thead
                   className={cn(
                     props.className,
-                    "bg-gray-50 text-gray-700 text-xs uppercase dark:bg-gray-700 dark:text-gray-400",
+                    "[&_tr]:bg-gray-50 [&_tr]:text-gray-700 [&_tr]:text-xs [&_tr]:uppercase [&_tr]:dark:bg-gray-700 [&_tr]:dark:text-gray-400",
                   )}
                   {...props}
                 />
               ),
+              tbody: ({ node: _, ...props }) => (
+                <tbody className={cn(props.className, "[&_tr:last-child]:border-0")} {...props} />
+              ),
               th: ({ node: _, ...props }) => (
                 <th className={cn(props.className, "whitespace-nowrap px-6 py-3 text-center")} {...props} />
+              ),
+              td: ({ node: _, ...props }) => (
+                <td className={cn(props.className, "whitespace-nowrap px-6 py-4 text-center")} {...props} />
               ),
               tr: ({ node: _, ...props }) => (
                 <tr
@@ -175,8 +178,9 @@ const MessagePart = memo(function _Message({ part }: { part: NonNullable<AiMessa
             case "partial-call":
               return <p>Generating query...</p>
             case "result": {
-              const query = part.toolInvocation.args?.query
-              return <QueryDetails query={query} />
+              // const query = part.toolInvocation.args?.query
+              return null
+              // return <QueryDetails query={query} />
             }
             default: {
               toolState satisfies never
@@ -196,18 +200,18 @@ const MessagePart = memo(function _Message({ part }: { part: NonNullable<AiMessa
   }
 })
 
-const QueryDetails = memo(function _QueryDetails({ query }: { query: string }) {
-  return (
-    <details key="a" className="w-[500px] overflow-hidden rounded-xl border [&_svg]:open:rotate-90">
-      <summary className="flex w-full cursor-pointer items-center gap-2 bg-gray-50 px-3 py-2 font-medium text-sm dark:bg-gray-800 [&::-webkit-details-marker]:hidden">
-        <ChevronRightIcon className="size-4" /> <span>View SQL query</span>
-      </summary>
-      <div className="bg-gray-100 p-4 dark:bg-gray-900">
-        <code className="whitespace-pre-wrap text-sm">{query}</code>
-      </div>
-    </details>
-  )
-})
+// const QueryDetails = memo(function _QueryDetails({ query }: { query: string }) {
+//   return (
+//     <details key="a" className="w-full overflow-hidden rounded-xl border [&_svg]:open:rotate-90">
+//       <summary className="flex w-full cursor-pointer items-center gap-2 bg-gray-50 px-3 py-2 font-medium text-sm dark:bg-gray-800 [&::-webkit-details-marker]:hidden">
+//         <ChevronRightIcon className="size-4" /> <span>View SQL query</span>
+//       </summary>
+//       <div className="bg-gray-100 p-4 dark:bg-gray-900">
+//         <code className="whitespace-pre-wrap text-sm">{query}</code>
+//       </div>
+//     </details>
+//   )
+// })
 
 function ThinkingMessage() {
   const role = "assistant"
