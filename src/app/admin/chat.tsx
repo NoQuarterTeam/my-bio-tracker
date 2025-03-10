@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils"
 import { type Message as AiMessage, useChat } from "@ai-sdk/react"
 import { motion } from "framer-motion"
 import { SendIcon, SparklesIcon, SquareIcon } from "lucide-react"
-import { memo, useRef, useState } from "react"
+import { memo, useEffect, useRef, useState } from "react"
 import remarkGfm from "remark-gfm"
 import { MemoizedReactMarkdown } from "../components/markdown"
 
@@ -18,6 +18,12 @@ export function Chat() {
       setIsSubmitted(false)
     },
   })
+
+  useEffect(() => {
+    if (isSubmitted) {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" })
+    }
+  }, [isSubmitted])
 
   const isLoading = status === "submitted"
 
