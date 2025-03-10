@@ -8,7 +8,6 @@ import type { Metadata } from "next"
 import { Outfit } from "next/font/google"
 import { Suspense } from "react"
 import { Toaster } from "sonner"
-import { Nav } from "./components/nav"
 
 const sans = Outfit({ subsets: ["latin"] })
 
@@ -27,10 +26,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <html lang="en" suppressHydrationWarning>
       <body className={cn("min-h-screen bg-background font-sans antialiased", sans.className)}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <div className="relative flex min-h-screen flex-col">
-            <Nav />
-            <div className="flex-1">{children}</div>
-          </div>
+          {children}
           <Toaster />
           <Suspense>
             <ServerToaster />

@@ -1,4 +1,4 @@
-import { UploadDocument } from "@/app/components/upload-document"
+import { UploadDocument } from "@/app/(home)/components/upload-document"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { mistral } from "@/lib/mistral"
 import { getMaybeUser } from "@/lib/server/auth"

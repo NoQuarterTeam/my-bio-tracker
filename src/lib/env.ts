@@ -11,6 +11,7 @@ export const env = createEnv({
    */
   server: {
     DATABASE_URL: z.string().url(),
+    DATABASE_URL_READ_ONLY: z.string().url(),
     OPENAI_API_KEY: z.string().min(1),
     APP_SECRET: z.string().min(1),
     APP_AUTH_SECRET: z.string().min(1),
@@ -36,6 +37,7 @@ export const env = createEnv({
   runtimeEnv: {
     NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL: process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL,
     DATABASE_URL: process.env.DATABASE_URL,
+    DATABASE_URL_READ_ONLY: process.env.DATABASE_URL_READ_ONLY,
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
     NEXT_PUBLIC_VERCEL_ENV: process.env.NEXT_PUBLIC_VERCEL_ENV,
     APP_SECRET: process.env.APP_SECRET,

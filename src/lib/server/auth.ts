@@ -41,6 +41,7 @@ export const baseUserSelectFields = {
   email: true,
   name: true,
   avatar: true,
+  isAdmin: true,
 }
 
 export const getMaybeUser = cache(async () => {
@@ -48,7 +49,7 @@ export const getMaybeUser = cache(async () => {
   if (!userId) return null
   const maybeUser = await db.query.users.findFirst({
     where: eq(users.id, userId),
-    columns: { id: true, email: true, name: true, avatar: true },
+    columns: { id: true, email: true, name: true, avatar: true, isAdmin: true },
   })
 
   // @ts-ignore
@@ -68,4 +69,16 @@ export async function requireUser() {
   const userId = await getUserSession()
   if (!userId) return redirect("/login")
   return userId!
+}
+
+export async function requireAdmin() {
+  const user = await getMaybeUser()
+  if (!user?.isAdmin) redirect("/")
+  return user!
+}
+
+export async function getAdmin() {
+  const user = await getMaybeUser()
+  if (!user?.isAdmin) redirect("/")
+  return user!
 }
