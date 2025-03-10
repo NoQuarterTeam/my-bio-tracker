@@ -1,9 +1,10 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 
-import { FileIcon, UploadIcon, XIcon } from "lucide-react"
+import { FileIcon, Loader2Icon, UploadIcon, XIcon } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useDropzone } from "react-dropzone"
@@ -30,7 +31,6 @@ export function UploadDocument() {
   const dropzone = useDropzone({ onDrop: setFiles })
 
   const handleConfirm = () => {
-    console.log("do stuff")
     const formData = new FormData()
     for (const file of files) {
       formData.append("files", file)
@@ -51,33 +51,52 @@ export function UploadDocument() {
       <Dialog
         open={files.length > 0}
         onOpenChange={(open) => {
-          if (!open) setFiles([])
+          if (!open && !isMutating) setFiles([])
         }}
       >
         <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Uploading documents</DialogTitle>
-            <DialogDescription>Uploading {files.length} files</DialogDescription>
-          </DialogHeader>
-          <div className="divide-y border">
-            {files.map((file) => (
-              <div key={file.name} className="flex items-center justify-between px-2 py-1">
-                <div className="flex items-center gap-2">
-                  <FileIcon className="h-4 w-4" />
-                  <span className="w-[300px] truncate text-sm">{file.name}</span>
-                </div>
-                <Button variant="ghost" size="icon" onClick={() => setFiles(files.filter((f) => f !== file))}>
-                  <XIcon className="h-4 w-4" />
-                </Button>
+          {isMutating ? (
+            <div className="flex flex-col items-center justify-center py-8">
+              <Loader2Icon className="mb-4 h-10 w-10 animate-spin text-primary" />
+              <h3 className="mb-2 font-semibold text-lg">Processing Documents</h3>
+              <p className="mb-4 text-center text-muted-foreground">
+                We're extracting all relevant information from your documents.
+              </p>
+              <Card className="w-full">
+                <CardContent className="pt-6">
+                  <CardDescription className="text-center">
+                    This process may take a minute. Please don't close this window.
+                  </CardDescription>
+                </CardContent>
+              </Card>
+            </div>
+          ) : (
+            <>
+              <DialogHeader>
+                <DialogTitle>Uploading documents</DialogTitle>
+                <DialogDescription>Uploading {files.length} files</DialogDescription>
+              </DialogHeader>
+              <div className="divide-y border">
+                {files.map((file) => (
+                  <div key={file.name} className="flex items-center justify-between px-2 py-1">
+                    <div className="flex items-center gap-2">
+                      <FileIcon className="h-4 w-4" />
+                      <span className="w-[300px] truncate text-sm">{file.name}</span>
+                    </div>
+                    <Button variant="ghost" size="icon" onClick={() => setFiles(files.filter((f) => f !== file))}>
+                      <XIcon className="h-4 w-4" />
+                    </Button>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-          {error && <div className="text-red-500">{error.message}</div>}
-          <DialogFooter>
-            <Button type="button" onClick={handleConfirm} disabled={isMutating}>
-              {isMutating ? "Uploading..." : "Confirm"}
-            </Button>
-          </DialogFooter>
+              {error && <div className="text-red-500">{error.message}</div>}
+              <DialogFooter>
+                <Button type="button" onClick={handleConfirm}>
+                  Confirm
+                </Button>
+              </DialogFooter>
+            </>
+          )}
         </DialogContent>
       </Dialog>
     </div>

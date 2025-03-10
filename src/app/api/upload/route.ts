@@ -13,7 +13,7 @@ import { NextResponse } from "next/server"
 import { z } from "zod"
 
 const documentSchema = documentSelectSchema
-  .omit({ id: true, createdAt: true, updatedAt: true, userId: true, date: true })
+  .omit({ id: true, fileName: true, content: true, createdAt: true, updatedAt: true, userId: true, date: true })
   .extend({ date: z.string() })
 
 const markerSchema = markerSelectSchema.omit({ id: true, createdAt: true, updatedAt: true, documentId: true })
@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
       Task: Extract structured data from the provided medical document content.
       
       Guidelines:
-      1. Extract the test date, any notes, and all markers.
+      1. Extract the test dates, any notes, document title, and all markers.
       2. Translate all content to English if in another language.
       3. Format all the marker names in the same way where possible and capitalize the first letter of each word.
       4. For marker names, check the existing marker names first and use a matching one if similar.
@@ -92,17 +92,20 @@ export async function POST(request: NextRequest) {
       // Insert the document
       const [doc] = await db
         .insert(documents)
-        .values({ date: new Date(documentData.date), notes: documentData.notes, userId, mistralId: mistalFile.id })
+        .values({
+          fileName: file.name,
+          content: ocrResponse.pages.map((page) => page.markdown).join("\n"),
+          date: new Date(documentData.date),
+          notes: documentData.notes,
+          title: documentData.title,
+          userId,
+          mistralId: mistalFile.id,
+        })
         .returning()
 
       // Insert all markers
       if (documentData.markers.length > 0) {
-        await db.insert(markers).values(
-          documentData.markers.map((marker) => ({
-            ...marker,
-            documentId: doc.id,
-          })),
-        )
+        await db.insert(markers).values(documentData.markers.map((marker) => ({ ...marker, documentId: doc.id })))
       }
     }
 

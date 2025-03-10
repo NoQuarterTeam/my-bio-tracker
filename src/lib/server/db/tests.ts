@@ -6,6 +6,9 @@ import { createSelectSchema } from "drizzle-zod"
 export const documents = pgTable("document", {
   id: uuid("id").primaryKey().defaultRandom(),
   date: timestamp("date").notNull(),
+  fileName: varchar("file_name").notNull(),
+  content: text("content").notNull(),
+  title: varchar("title").notNull(),
   notes: text("notes").default(""),
   mistralId: varchar("mistral_id", { length: 255 }).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
