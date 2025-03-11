@@ -37,7 +37,7 @@
     "jsonwebtoken": "^9.0.2",
     "loops": "^4.0.0",
     "lucide-react": "^0.479.0",
-    "next": "15.2.1",
+    "next": "15.2.2",
     "next-themes": "latest",
     "openai": "^4.86.2",
     "pdfjs-dist": "4.10.38",
