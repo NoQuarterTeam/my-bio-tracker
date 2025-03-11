@@ -70,19 +70,19 @@ export default async function Page() {
           {docs.map((doc) => (
             <Card key={doc.id}>
               <CardHeader>
-                <div>
-                  <div className="flex items-start justify-between">
-                    <CardTitle className="font-bold text-lg">{formatDate(doc.date)}</CardTitle>
-                    <DeleteDocumentDialog documentId={doc.id} onDelete={deleteDocument} />
+                <div className="flex items-start justify-between">
+                  <div>
+                    <CardTitle className="font-bold text-base">{doc.title}</CardTitle>
+                    <CardDescription>
+                      {formatDate(doc.date)} - {doc.markers.length} marker{doc.markers.length !== 1 ? "s" : ""}
+                    </CardDescription>
                   </div>
-                  <CardDescription>
-                    {doc.markers.length} marker{doc.markers.length !== 1 ? "s" : ""}
-                  </CardDescription>
+                  <DeleteDocumentDialog documentId={doc.id} onDelete={deleteDocument} />
                 </div>
               </CardHeader>
               <CardContent>
                 {doc.notes ? (
-                  <p className="text-sm">{doc.notes}</p>
+                  <p className="line-clamp-4 text-sm">{doc.notes}</p>
                 ) : (
                   <p className="text-muted-foreground text-sm italic">No notes</p>
                 )}

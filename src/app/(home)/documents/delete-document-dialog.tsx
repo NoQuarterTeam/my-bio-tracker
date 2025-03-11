@@ -19,9 +19,8 @@ export function DeleteDocumentDialog({ documentId, onDelete }: DeleteDocumentDia
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="destructive" size="sm">
-          <Trash2 className="mr-1" />
-          Delete
+        <Button variant="outline" size="icon">
+          <Trash2 />
         </Button>
       </DialogTrigger>
       <DialogContent>
