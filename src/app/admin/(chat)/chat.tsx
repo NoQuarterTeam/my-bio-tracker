@@ -1,4 +1,5 @@
 "use client"
+import { MemoizedReactMarkdown } from "@/components/markdown"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { type Message as AiMessage, useChat } from "@ai-sdk/react"
@@ -6,7 +7,6 @@ import { motion } from "framer-motion"
 import { SendIcon, SparklesIcon, SquareIcon } from "lucide-react"
 import { memo, useEffect, useRef, useState } from "react"
 import remarkGfm from "remark-gfm"
-import { MemoizedReactMarkdown } from "../components/markdown"
 
 export function Chat() {
   const [isSubmitted, setIsSubmitted] = useState(false)
