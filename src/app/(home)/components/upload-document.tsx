@@ -28,7 +28,15 @@ export function UploadDocument() {
     },
   })
   const [files, setFiles] = useState<File[]>([])
-  const dropzone = useDropzone({ onDrop: setFiles })
+  const dropzone = useDropzone({
+    onDrop: setFiles,
+    accept: {
+      "image/*": [".png", ".jpg", ".jpeg"],
+      "application/pdf": [".pdf"],
+      "application/msword": [".doc", ".docx"],
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [".docx"],
+    },
+  })
 
   const handleConfirm = () => {
     const formData = new FormData()
@@ -44,7 +52,7 @@ export function UploadDocument() {
         <input {...dropzone.getInputProps()} />
         <Button variant="outline">
           <UploadIcon />
-          <span>Upload documents</span>
+          Upload documents
         </Button>
       </div>
 

@@ -32,6 +32,8 @@ const buttonVariants = cva(
   },
 )
 
+export type ButtonVariantProps = VariantProps<typeof buttonVariants>
+
 const loadingColors = cva("size-4 animate-spin", {
   variants: {
     variant: {
@@ -55,7 +57,7 @@ function Button({
   asChild = false,
   isLoading = false,
   ...props
-}: React.ComponentProps<"button"> & VariantProps<typeof buttonVariants> & { asChild?: boolean; isLoading?: boolean }) {
+}: React.ComponentProps<"button"> & ButtonVariantProps & { asChild?: boolean; isLoading?: boolean }) {
   const Comp = asChild ? Slot : "button"
 
   return (

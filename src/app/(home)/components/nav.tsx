@@ -8,13 +8,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
+import { LinkButton } from "@/components/link-button"
 import { clearSession, getMaybeUser } from "@/lib/server/auth"
-import { ClipboardList, HomeIcon, LogOutIcon, User, UserIcon } from "lucide-react"
+import { ClipboardListIcon, HomeIcon, LogOutIcon, User, UserIcon } from "lucide-react"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 import { NavThemeSwitcher } from "./nav-theme-switcher"
 import { UploadDocument } from "./upload-document"
-
 export async function Nav() {
   const user = await getMaybeUser()
 
@@ -24,18 +24,14 @@ export async function Nav() {
         <Link href="/" className="whitespace-nowrap font-semibold text-lg">
           My Bio Tracker
         </Link>
-        <Button className="hidden md:flex" variant="ghost" size="sm" asChild>
-          <Link href="/" className="flex items-center gap-2">
-            <HomeIcon className="h-4 w-4" />
-            <span>Dashboard</span>
-          </Link>
-        </Button>
-        <Button className="hidden md:flex" variant="ghost" size="sm" asChild>
-          <Link href="/documents" className="flex items-center gap-2">
-            <ClipboardList className="h-4 w-4" />
-            <span>Documents</span>
-          </Link>
-        </Button>
+        <LinkButton variant="ghost" size="sm" className="hidden items-center gap-2 md:flex" href="/">
+          <HomeIcon />
+          Dashboard
+        </LinkButton>
+        <LinkButton variant="ghost" size="sm" className="hidden items-center gap-2 md:flex" href="/documents">
+          <ClipboardListIcon />
+          Documents
+        </LinkButton>
       </div>
 
       <div className="flex items-center gap-4">
@@ -45,7 +41,7 @@ export async function Nav() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="icon" className="rounded-full border p-2">
-                  <UserIcon className="h-4 w-4" />
+                  <UserIcon />
                 </Button>
               </DropdownMenuTrigger>
 
@@ -59,7 +55,7 @@ export async function Nav() {
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
                     <Link href="/documents" className="flex cursor-pointer items-center gap-2">
-                      <ClipboardList className="h-4 w-4" />
+                      <ClipboardListIcon className="h-4 w-4" />
                       <span>Documents</span>
                     </Link>
                   </DropdownMenuItem>
