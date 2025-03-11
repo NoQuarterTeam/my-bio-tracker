@@ -1,6 +1,7 @@
 import { relations } from "drizzle-orm"
 import { pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core"
 import { createSelectSchema } from "drizzle-zod"
+import { users } from "./schema"
 
 // Table for documents (lab reports)
 export const documents = pgTable("document", {
@@ -31,6 +32,7 @@ export const markers = pgTable("marker", {
   category: varchar("category", { length: 100 }).notNull(),
   referenceMin: varchar("reference_min", { length: 100 }),
   referenceMax: varchar("reference_max", { length: 100 }),
+  userId: uuid("user_id").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
     .defaultNow()
@@ -49,5 +51,9 @@ export const markersRelations = relations(markers, ({ one }) => ({
   document: one(documents, {
     fields: [markers.documentId],
     references: [documents.id],
+  }),
+  user: one(users, {
+    fields: [markers.userId],
+    references: [users.id],
   }),
 }))

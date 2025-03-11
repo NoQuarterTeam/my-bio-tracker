@@ -1,8 +1,9 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { getUserSession } from "@/lib/server/auth"
 import { db } from "@/lib/server/db"
-import { documents } from "@/lib/server/db/tests"
+import { markers } from "@/lib/server/db/tests"
 import { eq } from "drizzle-orm"
+import { AddManualMarker } from "./components/add-manual-marker"
 import { UploadDocument } from "./components/upload-document"
 import { Landing } from "./landing"
 import { MarkerChart } from "./marker-chart"
@@ -12,17 +13,9 @@ export default async function Page() {
 
   if (!userId) return <Landing />
 
-  // First, get all documents that belong to the current user
-  const docs = await db.query.documents.findMany({
-    where: eq(documents.userId, userId),
-  })
-
-  // Get the document IDs to use in the filter
-  const userDocumentIds = docs.map((doc) => doc.id)
-
   // Then get markers that belong to those documents
   const documentMarkers = await db.query.markers.findMany({
-    where: (marker, { inArray }) => inArray(marker.documentId, userDocumentIds),
+    where: eq(markers.userId, userId),
     with: { document: true },
   })
 
@@ -67,15 +60,18 @@ export default async function Page() {
           <h1 className="font-bold text-3xl tracking-tight">Health Markers Timeline</h1>
           <p className="text-muted-foreground">View your health markers over time to track your progress.</p>
         </div>
+        <AddManualMarker />
       </div>
 
       {documentMarkers.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-lg border py-16">
           <h3 className="mb-2 font-semibold text-xl">No markers yet</h3>
           <p className="mb-6 max-w-md text-center text-muted-foreground">
-            Upload your first document to get started tracking your biomarkers
+            Upload your first document or add a manual marker to get started tracking your biomarkers
           </p>
-          <UploadDocument />
+          <div className="flex gap-4">
+            <UploadDocument />
+          </div>
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -86,8 +82,8 @@ export default async function Page() {
             if (chartData.length === 0) return null
 
             // Parse range values to numbers for reference lines
-            const referenceMin = timeline.referenceMin ? Number.parseFloat(timeline.referenceMin) : 0
-            const referenceMax = timeline.referenceMax ? Number.parseFloat(timeline.referenceMax) : 0
+            const referenceMin = timeline.referenceMin ? Number.parseFloat(timeline.referenceMin) : null
+            const referenceMax = timeline.referenceMax ? Number.parseFloat(timeline.referenceMax) : null
 
             return (
               <Card key={name} className="overflow-hidden">
@@ -97,7 +93,10 @@ export default async function Page() {
                     <span className="font-normal text-muted-foreground text-xs">{timeline.unit}</span>
                   </CardTitle>
                   <CardDescription className="text-xs">
-                    Range: {timeline.referenceMin || "N/A"} - {timeline.referenceMax || "N/A"} {timeline.unit}
+                    Range:{" "}
+                    {timeline.referenceMin && timeline.referenceMax
+                      ? `${timeline.referenceMin} - ${timeline.referenceMax} ${timeline.unit}`
+                      : null}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="p-3 pt-0">
@@ -106,8 +105,8 @@ export default async function Page() {
                       unit={timeline.unit}
                       name={name}
                       data={chartData}
-                      referenceMin={referenceMin}
-                      referenceMax={referenceMax}
+                      referenceMin={referenceMin || 0}
+                      referenceMax={referenceMax || 0}
                     />
                   </div>
                   {timeline.markers.length > 0 && (
@@ -117,10 +116,8 @@ export default async function Page() {
                           Latest:{" "}
                           <span
                             className={
-                              timeline.markers[0].value
-                                ? referenceMin > 0 &&
-                                  referenceMax > 0 &&
-                                  Number.parseFloat(timeline.markers[0].value) >= referenceMin &&
+                              timeline.markers[0].value && referenceMin && referenceMax
+                                ? Number.parseFloat(timeline.markers[0].value) >= referenceMin &&
                                   Number.parseFloat(timeline.markers[0].value) <= referenceMax
                                   ? "text-green-600"
                                   : "text-red-500"

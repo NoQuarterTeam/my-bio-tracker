@@ -20,7 +20,7 @@ export function MarkerChart({ name, referenceMax, referenceMin, unit, data }: Pr
   const chartConfig = {
     [name]: {
       label: name,
-      color: "#0ea5e9", // Sky blue color
+      color: "var(--primary)", // Sky blue color
     },
   }
 
@@ -78,8 +78,8 @@ export function MarkerChart({ name, referenceMax, referenceMin, unit, data }: Pr
           dataKey="value"
           name={name}
           strokeWidth={1.5}
-          dot={{ r: 2.5 }}
-          activeDot={{ r: 4 }}
+          dot={{ r: 2.5, fill: "var(--primary)" }}
+          activeDot={{ r: 4, fill: "var(--primary)" }}
           isAnimationActive={true}
         />
       </LineChart>
