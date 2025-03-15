@@ -16,7 +16,7 @@ const documentSchema = documentSelectSchema
   .omit({ id: true, fileName: true, content: true, createdAt: true, updatedAt: true, userId: true, date: true })
   .extend({ date: z.string() })
 
-const markerSchema = markerSelectSchema.omit({ id: true, createdAt: true, updatedAt: true, documentId: true })
+const markerSchema = markerSelectSchema.omit({ id: true, userId: true, createdAt: true, updatedAt: true, documentId: true })
 
 const schema = documentSchema.extend({ markers: z.array(markerSchema) })
 
@@ -105,7 +105,7 @@ export async function POST(request: NextRequest) {
 
       // Insert all markers
       if (documentData.markers.length > 0) {
-        await db.insert(markers).values(documentData.markers.map((marker) => ({ ...marker, documentId: doc.id })))
+        await db.insert(markers).values(documentData.markers.map((marker) => ({ ...marker, userId, documentId: doc.id })))
       }
     }
 
