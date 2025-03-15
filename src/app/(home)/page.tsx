@@ -1,8 +1,11 @@
+import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { getUserSession } from "@/lib/server/auth"
 import { db } from "@/lib/server/db"
 import { markers } from "@/lib/server/db/tests"
 import { eq } from "drizzle-orm"
+import { PencilIcon } from "lucide-react"
+import Link from "next/link"
 import { AddManualMarker } from "./components/add-manual-marker"
 import { UploadDocument } from "./components/upload-document"
 import { Landing } from "./landing"
@@ -88,10 +91,17 @@ export default async function Page() {
             return (
               <Card key={name} className="overflow-hidden">
                 <CardHeader className="p-3 pb-0">
-                  <CardTitle className="flex items-center justify-between text-sm">
-                    <span>{name}</span>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Button asChild variant="ghost" size="icon">
+                        <Link href={`/marker/${encodeURIComponent(name)}`} title={`Edit ${name} markers`}>
+                          <PencilIcon className="h-3.5 w-3.5" />
+                        </Link>
+                      </Button>
+                      <CardTitle className="text-sm">{name}</CardTitle>
+                    </div>
                     <span className="font-normal text-muted-foreground text-xs">{timeline.unit}</span>
-                  </CardTitle>
+                  </div>
                   <CardDescription className="text-xs">
                     Range:{" "}
                     {timeline.referenceMin && timeline.referenceMax

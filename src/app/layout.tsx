@@ -3,11 +3,11 @@ import "./globals.css"
 import { ServerToaster } from "@/components/server-toaster"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
+import { Toaster } from "@/components/ui/sonner"
 import { cn } from "@/lib/utils"
 import type { Metadata } from "next"
 import { Outfit } from "next/font/google"
 import { Suspense } from "react"
-import { Toaster } from "sonner"
 
 const sans = Outfit({ subsets: ["latin"] })
 
