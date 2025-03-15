@@ -6,10 +6,11 @@ import { and, eq } from "drizzle-orm"
 import { ChevronLeftIcon } from "lucide-react"
 import { notFound } from "next/navigation"
 import { MarkerEditForm } from "../components/marker-edit-form"
+
 interface PageProps {
-  params: {
+  params: Promise<{
     name: string
-  }
+  }>
 }
 
 export default async function MarkerEditPage({ params }: PageProps) {
@@ -17,7 +18,7 @@ export default async function MarkerEditPage({ params }: PageProps) {
   if (!userId) return notFound()
 
   // Decode the marker name from the URL
-  const markerName = decodeURIComponent(params.name)
+  const markerName = decodeURIComponent((await params).name)
 
   // Fetch all markers with this name for the current user
   const markerEntries = await db.query.markers.findMany({
