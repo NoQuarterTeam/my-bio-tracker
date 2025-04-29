@@ -28,7 +28,7 @@
         "drizzle-zod": "^0.7.0",
         "framer-motion": "^12.4.10",
         "jsonwebtoken": "^9.0.2",
-        "loops": "^4.0.0",
+        "loops": "^5.0.0",
         "lucide-react": "^0.479.0",
         "next": "15.2.2",
         "next-themes": "^0.4.6",
@@ -669,7 +669,7 @@
 
     "longest-streak": ["longest-streak@3.1.0", "", {}, "sha512-9Ri+o0JYgehTaVBBDoMqIl8GXtbWg711O3srftcHhZ0dqnETqLaoIK0x17fUw9rFSlK/0NlsKe0Ahhyl5pXE2g=="],
 
-    "loops": ["loops@4.0.0", "", {}, "sha512-fLcdqtkAohpOGaYYnzdxs2eswG5wvfFMLn62csz/l8WOu3WznbvVC2Cvdx8kVVU38GQ+RxPXAt43uqY0hWvHSA=="],
+    "loops": ["loops@5.0.0", "", {}, "sha512-5SsoKOYwsSbxmfVfKPkuHDwu4yc1Olal36DwlECjq9X5LjJ5+B2iJ7k2YAyvBvCm3rb7uQqo0aeD+5bCXnRicQ=="],
 
     "loose-envify": ["loose-envify@1.4.0", "", { "dependencies": { "js-tokens": "^3.0.0 || ^4.0.0" }, "bin": { "loose-envify": "cli.js" } }, "sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q=="],
 
