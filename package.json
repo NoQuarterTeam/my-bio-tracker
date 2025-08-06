@@ -33,7 +33,7 @@
     "dotenv": "^16.4.7",
     "drizzle-kit": "latest",
     "drizzle-orm": "latest",
-    "drizzle-zod": "^0.7.0",
+    "drizzle-zod": "^0.8.0",
     "framer-motion": "^12.4.10",
     "jsonwebtoken": "^9.0.2",
     "loops": "^4.0.0",
