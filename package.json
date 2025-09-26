@@ -12,7 +12,7 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
-    "@ai-sdk/mistral": "^1.1.15",
+    "@ai-sdk/mistral": "^2.0.0",
     "@ai-sdk/openai": "^1.2.1",
     "@mistralai/mistralai": "^1.5.1",
     "@radix-ui/react-dialog": "^1.1.6",
