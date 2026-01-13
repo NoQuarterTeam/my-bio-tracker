@@ -60,7 +60,7 @@
     "@biomejs/biome": "^1.9.4",
     "@tailwindcss/postcss": "^4.0.9",
     "@types/jsonwebtoken": "^9.0.9",
-    "@types/node": "^22",
+    "@types/node": "^24.0.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "bun-types": "latest",
